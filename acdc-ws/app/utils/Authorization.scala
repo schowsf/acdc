@@ -22,11 +22,23 @@ class Authorization(private var authorizationSettings: AuthorizationSettings) {
 
   def getRoles(request: Request[_]): List[String] = {
     authorizationSettings.authEnabled match {
-      case true => getKeyRoles(request.headers.get(authorizationSettings.authHeader))
+      case true =>
+        authorizationSettings.authHeader match {
+          case Xfcc => getSpiffe(request.headers.get(authorizationSettings.authHeader))
+          case _ => getKeyRoles(request.headers.get(authorizationSettings.authHeader))
+        }
       case false => List(Admin)
     }
   }
 
+  private def getSpiffe(key: Option[String]) = {
+    key match {
+      case Some(xfcc) =>
+        if (xfcc.contains("mce-compute")) { List(Admin) }
+        else List.empty
+      case None => List.empty
+    }
+  }
   private def getKeyRoles(key: Option[String]) = {
     key match {
       case Some(x) => authorizationSettings.keyRoles.getOrElse(convertToSha256(x), List.empty)
@@ -57,6 +69,7 @@ object Authorization {
 
   final val Admin = "admin"
   final val User = "user"
+  final val Xfcc = "X_FORWARDED_CLIENT_CERT"
 
   def convertToSha256(key: String): String =
     Try(
@@ -71,4 +84,10 @@ object Authorization {
       )
     ).getOrElse(key)
 
+//  def main(args: Array[String]): Unit = {
+//    val jerry=convertToSha256("jerry")
+//    val ben=convertToSha256("ben")
+//    println(s"jerry=$jerry")
+//    println(s"ben=$ben")
+//  }
 }
