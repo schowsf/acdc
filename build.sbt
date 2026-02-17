@@ -52,12 +52,13 @@ lazy val ws = (project in file("acdc-ws")).
     dependencyOverrides ++= Seq(
       "com.google.guava" % "guava" % "32.1.3-jre",
       // the transitive jackson dependencies from play framework on has security vulnerabilities
-      "com.fasterxml.jackson.core" % "jackson-databind" % jacksonVersion,
-      "com.fasterxml.jackson.module" %% "jackson-module-scala" % jacksonVersion,
-      "com.fasterxml.jackson.dataformat" % "jackson-dataformat-cbor" % jacksonVersion,
-      "com.fasterxml.jackson.datatype" % "jackson-datatype-jdk8" % jacksonVersion,
-      "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % jacksonVersion,
-      "com.fasterxml.jackson.module" % "jackson-module-parameter-names" % jacksonVersion
+      "com.fasterxml.jackson.core"       % "jackson-databind"               % jacksonVersion,
+      "com.fasterxml.jackson.module"    %% "jackson-module-scala"           % jacksonVersion,
+      "com.fasterxml.jackson.dataformat" % "jackson-dataformat-cbor"        % jacksonVersion,
+      "com.fasterxml.jackson.datatype"   % "jackson-datatype-jdk8"          % jacksonVersion,
+      "com.fasterxml.jackson.datatype"   % "jackson-datatype-jsr310"        % jacksonVersion,
+      "com.fasterxml.jackson.module"     % "jackson-module-parameter-names" % jacksonVersion,
+      "org.lz4"                          % "lz4-java"                       % "1.8.1",
     )
   ).
   dependsOn(core)
