@@ -6,7 +6,7 @@ val kineticpulse = "com.salesforce.mce" %% "kineticpulse-metric" % "0.3.2"
 
 lazy val commonSettings = Seq(
   scalacOptions ++= Seq("-deprecation", "-feature", "-Xlint"), // , "-Xfatal-warnings"),
-  scalaVersion := "2.13.12",
+  scalaVersion := "2.13.18",
   libraryDependencies += scalaTestArtifact,
   fork := true,
   organization := "com.salesforce.mce",
